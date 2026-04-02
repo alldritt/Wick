@@ -22,6 +22,7 @@ struct DocumentView: View {
         case console = "Console"
         case variables = "Variables"
         case callStack = "Call Stack"
+        case canvas = "Canvas"
         case repl = "REPL"
     }
 
@@ -140,6 +141,13 @@ struct DocumentView: View {
                             onSelectFrame: { dbg.selectFrame($0) }
                         )
                     }
+                case .canvas:
+                    if let dbg = session.debugSession {
+                        DebugCanvasView(
+                            canvas: dbg.canvasModel,
+                            onSelectBubble: { dbg.selectFrame($0.frameIndex) }
+                        )
+                    }
                 case .repl:
                     if let dbg = session.debugSession {
                         DebugREPLView(
@@ -160,6 +168,7 @@ struct DocumentView: View {
                 Picker("Panel", selection: $bottomPanel) {
                     Text("Variables").tag(BottomPanel.variables)
                     Text("Call Stack").tag(BottomPanel.callStack)
+                    Text("Canvas").tag(BottomPanel.canvas)
                     Text("REPL").tag(BottomPanel.repl)
                 }
                 .pickerStyle(.segmented)
@@ -176,6 +185,11 @@ struct DocumentView: View {
                         frames: dbg.callStack,
                         selectedFrame: dbg.selectedFrame,
                         onSelectFrame: { dbg.selectFrame($0) }
+                    )
+                case .canvas:
+                    DebugCanvasView(
+                        canvas: dbg.canvasModel,
+                        onSelectBubble: { dbg.selectFrame($0.frameIndex) }
                     )
                 case .repl:
                     DebugREPLView(
