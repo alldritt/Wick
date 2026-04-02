@@ -17,6 +17,14 @@ struct RunToolbar: ToolbarContent {
             .keyboardShortcut("r", modifiers: .command)
 
             Button {
+                session.debug(source: source)
+            } label: {
+                Label("Debug", systemImage: "ant.fill")
+            }
+            .disabled(session.state == .running || session.state == .compiling)
+            .keyboardShortcut("r", modifiers: [.command, .shift])
+
+            Button {
                 session.stop()
             } label: {
                 Label("Stop", systemImage: "stop.fill")
