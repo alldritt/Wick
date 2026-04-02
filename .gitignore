@@ -3,3 +3,4 @@ Package.resolved
 *.xcodeproj/
 DerivedData/
 .swiftpm/
+.DS_Store
