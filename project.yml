@@ -51,6 +51,12 @@ targets:
             LSHandlerRank: Owner
             LSItemContentTypes:
               - com.latenightsw.lantern-source
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
         UTExportedTypeDeclarations:
           - UTTypeIdentifier: com.latenightsw.lantern-source
             UTTypeDescription: Lantern Source File
