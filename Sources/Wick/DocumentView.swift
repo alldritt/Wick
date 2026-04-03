@@ -109,7 +109,8 @@ struct DocumentView: View {
                 case .variables:
                     VariablesPanel(
                         locals: session.debugSession.currentLocals,
-                        captures: session.debugSession.currentCaptures
+                        captures: session.debugSession.currentCaptures,
+                        globals: session.debugSession.currentGlobals
                     )
                 case .callStack:
                     CallStackPanel(
