@@ -1,41 +1,77 @@
 import SwiftUI
 import LanternKit
 
-/// Toolbar content with Run and Stop controls.
+/// Unified toolbar: Run/Pause, Stop, Step Over, Step Into, Step Out.
+///
+/// The debugger is always active. Run executes to completion (honouring
+/// breakpoints). Step Over/Into compile if needed and pause after one statement.
 struct RunToolbar: ToolbarContent {
     let session: SessionController
     let source: String
 
     var body: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
-            Button {
-                session.run(source: source)
-            } label: {
-                Label("Run", systemImage: "play.fill")
+            // Run / Pause toggle
+            if session.state == .running {
+                Button {
+                    session.pauseExecution()
+                } label: {
+                    Label("Pause", systemImage: "pause.fill")
+                }
+                .keyboardShortcut("r", modifiers: .command)
+            } else if session.state == .paused {
+                Button {
+                    session.resume()
+                } label: {
+                    Label("Continue", systemImage: "play.fill")
+                }
+                .keyboardShortcut("r", modifiers: .command)
+            } else {
+                Button {
+                    session.run(source: source)
+                } label: {
+                    Label("Run", systemImage: "play.fill")
+                }
+                .disabled(session.state == .compiling)
+                .keyboardShortcut("r", modifiers: .command)
             }
-            .disabled(session.state == .running || session.state == .compiling)
-            .keyboardShortcut("r", modifiers: .command)
 
-            Button {
-                session.debug(source: source)
-            } label: {
-                Label("Debug", systemImage: "ant.fill")
-            }
-            .disabled(session.state == .running || session.state == .compiling)
-            .keyboardShortcut("r", modifiers: [.command, .shift])
-
+            // Stop
             Button {
                 session.stop()
             } label: {
                 Label("Stop", systemImage: "stop.fill")
             }
-            .disabled(session.state != .running && session.state != .paused)
+            .disabled(session.state == .idle || session.state == .finished || session.state == .error)
 
+            Divider()
+
+            // Step Over
             Button {
-                session.clearConsole()
+                session.stepOver(source: source)
             } label: {
-                Label("Clear", systemImage: "trash")
+                Label("Step Over", systemImage: "arrow.right")
             }
+            .disabled(session.state == .running || session.state == .compiling)
+            .keyboardShortcut("o", modifiers: [.command, .shift])
+
+            // Step Into
+            Button {
+                session.stepInto(source: source)
+            } label: {
+                Label("Step Into", systemImage: "arrow.down.right")
+            }
+            .disabled(session.state == .running || session.state == .compiling)
+            .keyboardShortcut("i", modifiers: [.command, .shift])
+
+            // Step Out
+            Button {
+                session.stepOut()
+            } label: {
+                Label("Step Out", systemImage: "arrow.up.left")
+            }
+            .disabled(session.state != .paused)
+            .keyboardShortcut("u", modifiers: [.command, .shift])
         }
 
         ToolbarItem(placement: .status) {

@@ -8,7 +8,7 @@ import LanguageSupport
 ///
 /// Creates a per-document `SessionController` and adapts layout
 /// based on horizontal size class: split view on macOS/iPad,
-/// tabs on iPhone.
+/// tabs on iPhone. The debugger is always active.
 struct DocumentView: View {
     @Binding var document: LanternDocument
     @State private var session = SessionController()
@@ -36,19 +36,6 @@ struct DocumentView: View {
         }
         .toolbar {
             RunToolbar(session: session, source: document.source)
-            if session.isDebugging, let dbg = session.debugSession {
-                ToolbarItem(placement: .primaryAction) {
-                    DebugToolbar(
-                        isPaused: dbg.isPaused,
-                        isDebugging: session.isDebugging,
-                        onContinue: { session.resume() },
-                        onPause: { session.pauseExecution() },
-                        onStepOver: { session.stepOver() },
-                        onStepInto: { session.stepInto() },
-                        onStepOut: { session.stepOut() }
-                    )
-                }
-            }
             previewToggle
         }
         .onChange(of: session.state) {
@@ -97,10 +84,8 @@ struct DocumentView: View {
             Tab("Console", systemImage: "terminal") {
                 console
             }
-            if session.isDebugging {
-                Tab("Debug", systemImage: "ant") {
-                    debugPanelsCompact
-                }
+            Tab("Debug", systemImage: "ant") {
+                debugPanelsCompact
             }
         }
     }
@@ -109,52 +94,40 @@ struct DocumentView: View {
 
     private var bottomPanelView: some View {
         VStack(spacing: 0) {
-            // Panel selector
-            if session.isDebugging {
-                Picker("Panel", selection: $bottomPanel) {
-                    ForEach(BottomPanel.allCases, id: \.self) { panel in
-                        Text(panel.rawValue).tag(panel)
-                    }
+            Picker("Panel", selection: $bottomPanel) {
+                ForEach(BottomPanel.allCases, id: \.self) { panel in
+                    Text(panel.rawValue).tag(panel)
                 }
-                .pickerStyle(.segmented)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
             }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 4)
 
-            // Panel content
             Group {
                 switch bottomPanel {
                 case .console:
                     console
                 case .variables:
-                    if let dbg = session.debugSession {
-                        VariablesPanel(
-                            locals: dbg.currentLocals,
-                            captures: dbg.currentCaptures
-                        )
-                    }
+                    VariablesPanel(
+                        locals: session.debugSession.currentLocals,
+                        captures: session.debugSession.currentCaptures
+                    )
                 case .callStack:
-                    if let dbg = session.debugSession {
-                        CallStackPanel(
-                            frames: dbg.callStack,
-                            selectedFrame: dbg.selectedFrame,
-                            onSelectFrame: { dbg.selectFrame($0) }
-                        )
-                    }
+                    CallStackPanel(
+                        frames: session.debugSession.callStack,
+                        selectedFrame: session.debugSession.selectedFrame,
+                        onSelectFrame: { session.debugSession.selectFrame($0) }
+                    )
                 case .canvas:
-                    if let dbg = session.debugSession {
-                        DebugCanvasView(
-                            canvas: dbg.canvasModel,
-                            onSelectBubble: { dbg.selectFrame($0.frameIndex) }
-                        )
-                    }
+                    DebugCanvasView(
+                        canvas: session.debugSession.canvasModel,
+                        onSelectBubble: { session.debugSession.selectFrame($0.frameIndex) }
+                    )
                 case .repl:
-                    if let dbg = session.debugSession {
-                        DebugREPLView(
-                            isPaused: dbg.isPaused,
-                            onEvaluate: { dbg.evaluate(expression: $0) }
-                        )
-                    }
+                    DebugREPLView(
+                        isPaused: session.debugSession.isPaused,
+                        onEvaluate: { session.debugSession.evaluate(expression: $0) }
+                    )
                 }
             }
         }
@@ -164,41 +137,37 @@ struct DocumentView: View {
 
     private var debugPanelsCompact: some View {
         VStack(spacing: 0) {
-            if let dbg = session.debugSession {
-                Picker("Panel", selection: $bottomPanel) {
-                    Text("Variables").tag(BottomPanel.variables)
-                    Text("Call Stack").tag(BottomPanel.callStack)
-                    Text("Canvas").tag(BottomPanel.canvas)
-                    Text("REPL").tag(BottomPanel.repl)
-                }
-                .pickerStyle(.segmented)
-                .padding(8)
+            let dbg = session.debugSession
+            Picker("Panel", selection: $bottomPanel) {
+                Text("Variables").tag(BottomPanel.variables)
+                Text("Call Stack").tag(BottomPanel.callStack)
+                Text("Canvas").tag(BottomPanel.canvas)
+                Text("REPL").tag(BottomPanel.repl)
+            }
+            .pickerStyle(.segmented)
+            .padding(8)
 
-                switch bottomPanel {
-                case .variables:
-                    VariablesPanel(
-                        locals: dbg.currentLocals,
-                        captures: dbg.currentCaptures
-                    )
-                case .callStack:
-                    CallStackPanel(
-                        frames: dbg.callStack,
-                        selectedFrame: dbg.selectedFrame,
-                        onSelectFrame: { dbg.selectFrame($0) }
-                    )
-                case .canvas:
-                    DebugCanvasView(
-                        canvas: dbg.canvasModel,
-                        onSelectBubble: { dbg.selectFrame($0.frameIndex) }
-                    )
-                case .repl:
-                    DebugREPLView(
-                        isPaused: dbg.isPaused,
-                        onEvaluate: { dbg.evaluate(expression: $0) }
-                    )
-                default:
-                    console
-                }
+            switch bottomPanel {
+            case .variables:
+                VariablesPanel(locals: dbg.currentLocals, captures: dbg.currentCaptures)
+            case .callStack:
+                CallStackPanel(
+                    frames: dbg.callStack,
+                    selectedFrame: dbg.selectedFrame,
+                    onSelectFrame: { dbg.selectFrame($0) }
+                )
+            case .canvas:
+                DebugCanvasView(
+                    canvas: dbg.canvasModel,
+                    onSelectBubble: { dbg.selectFrame($0.frameIndex) }
+                )
+            case .repl:
+                DebugREPLView(
+                    isPaused: dbg.isPaused,
+                    onEvaluate: { dbg.evaluate(expression: $0) }
+                )
+            default:
+                console
             }
         }
     }
