@@ -39,11 +39,10 @@ struct DocumentView: View {
             previewToggle
         }
         .onChange(of: session.state) {
-            if let diags = session.diagnostics {
-                messages = DiagnosticMapper.map(diags)
-            } else {
-                messages = []
-            }
+            updateMessages()
+        }
+        .onChange(of: session.debugSession.pausedLocation?.line) {
+            updateMessages()
         }
         .onChange(of: document.source) {
             session.scheduleRecompile(source: document.source)
@@ -170,6 +169,31 @@ struct DocumentView: View {
                 console
             }
         }
+    }
+
+    // MARK: - Message Updates
+
+    private func updateMessages() {
+        var msgs: Set<TextLocated<Message>> = []
+
+        // Compiler diagnostics
+        if let diags = session.diagnostics {
+            msgs = DiagnosticMapper.map(diags)
+        }
+
+        // Current execution line indicator (when paused)
+        if let loc = session.debugSession.pausedLocation {
+            let lineMsg = Message(
+                category: .live,
+                length: 1,
+                summary: "\u{25B6} Paused here",
+                description: nil
+            )
+            let textLoc = TextLocation(oneBasedLine: Int(loc.line), column: 1)
+            msgs.insert(TextLocated(location: textLoc, entity: lineMsg))
+        }
+
+        messages = msgs
     }
 
     // MARK: - Subviews
