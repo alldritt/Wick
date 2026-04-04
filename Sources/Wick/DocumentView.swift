@@ -203,7 +203,49 @@ struct DocumentView: View {
         LanternEditorView(
             source: $document.source,
             messages: $messages,
-            position: $position
+            position: $position,
+            breakpoints: BreakpointMapper.mapBreakpoints(session.debugSession.breakpoints),
+            stackFrames: session.debugSession.isPaused
+                ? BreakpointMapper.mapStackFrames(session.debugSession.callStack)
+                : [],
+            breakpointActions: makeBreakpointActions()
+        )
+    }
+
+    private func makeBreakpointActions() -> GutterBreakpointActions {
+        let dbg = session.debugSession
+        return GutterBreakpointActions(
+            onToggle: { line in
+                dbg.toggleBreakpoint(file: "", line: line)
+            },
+            onMove: { id, newLine in
+                dbg.removeBreakpoint(id)
+                dbg.addBreakpoint(file: "", line: newLine)
+            },
+            onDelete: { id in
+                dbg.removeBreakpoint(id)
+            },
+            onEdit: { _ in
+                // TODO: Present breakpoint editor sheet
+            },
+            contextMenuItems: { id in
+                let bp = dbg.breakpoints.first { $0.id == id }
+                var items: [GutterContextMenuItem] = []
+                if let bp {
+                    items.append(GutterContextMenuItem(
+                        title: bp.isEnabled ? "Disable Breakpoint" : "Enable Breakpoint"
+                    ) {
+                        dbg.enableBreakpoint(id, enabled: !bp.isEnabled)
+                    })
+                }
+                items.append(GutterContextMenuItem(
+                    title: "Delete Breakpoint",
+                    isDestructive: true
+                ) {
+                    dbg.removeBreakpoint(id)
+                })
+                return items
+            }
         )
     }
 
