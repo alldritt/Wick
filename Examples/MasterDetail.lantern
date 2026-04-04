@@ -1,0 +1,96 @@
+// MasterDetail.lantern
+//
+// Demonstrates the SwiftUI bridge with a NavigationStack,
+// List, state management, and interactive views.
+
+// --- Data Model ---
+
+struct Project {
+    let name: String
+    let language: String
+    let stars: Int
+    let description: String
+}
+
+let projects = [
+    Project(name: "Lantern", language: "Swift", stars: 42,
+            description: "An embeddable Swift interpreter with integrated debugging, SwiftUI bridge, and bytecode VM."),
+    Project(name: "Wick", language: "Swift", stars: 12,
+            description: "A development environment for Lantern scripts with live preview and Code Bubbles debugger."),
+    Project(name: "LanternKit", language: "Swift", stars: 8,
+            description: "Reusable SwiftUI components for building Lantern development tools."),
+    Project(name: "CodeEditorView", language: "Swift", stars: 320,
+            description: "A SwiftUI code editor view with syntax highlighting, line numbers, and minimap."),
+    Project(name: "SwiftSyntax", language: "Swift", stars: 2800,
+            description: "A Swift library for parsing, inspecting, generating, and transforming Swift source code.")
+]
+
+// --- Detail View ---
+
+struct ProjectDetailView: View {
+    let project: Project
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Text(project.name)
+                .font("largeTitle")
+                .bold()
+
+            HStack(spacing: 12) {
+                Label(project.language, systemImage: "chevron.left.forwardslash.chevron.right")
+                    .foregroundStyle("blue")
+                Label("\(project.stars) stars", systemImage: "star.fill")
+                    .foregroundStyle("orange")
+            }
+            .font("subheadline")
+
+            Text(project.description)
+                .font("body")
+                .foregroundStyle("secondary")
+                .padding(16)
+
+            Spacer()
+        }
+        .padding(20)
+    }
+}
+
+// --- Master View ---
+
+struct ProjectListView: View {
+    @State var selectedIndex = 0
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                // Header
+                HStack {
+                    Text("Projects")
+                        .font("title")
+                        .bold()
+                    Spacer()
+                    Text("\(projects.count) items")
+                        .foregroundStyle("secondary")
+                }
+                .padding(16)
+
+                // List of projects
+                VStack(spacing: 1) {
+                    for i in 0..<projects.count {
+                        let p = projects[i]
+                        Button(p.name) {
+                            selectedIndex = i
+                        }
+                        .padding(12)
+                    }
+                }
+
+                Divider()
+
+                // Detail area
+                ProjectDetailView(project: projects[selectedIndex])
+            }
+            .navigationTitle("Master-Detail Demo")
+        }
+    }
+}
