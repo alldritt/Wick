@@ -213,9 +213,8 @@ struct DocumentView: View {
 
     private var preview: some View {
         PreviewCanvasView(
-            previewView: session.previewView,
-            detectedTypeName: session.detectedViewTypeName,
-            hasError: session.diagnostics != nil
+            result: session.previewValue,
+            error: session.state == .error ? session.diagnostics?.description : nil
         )
     }
 

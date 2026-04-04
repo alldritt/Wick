@@ -1,7 +1,7 @@
 // 07-StateAndButtons.lantern
 //
 // @State variables and Button with actions.
-// Demonstrates reactive UI updates when state changes.
+// Struct views with state must be instantiated for preview.
 
 struct Counter: View {
     @State var count = 0
@@ -15,42 +15,22 @@ struct Counter: View {
             Text("\(count)")
                 .font("largeTitle")
                 .bold()
-                .foregroundStyle(count >= 0 ? "blue" : "red")
 
             HStack(spacing: 16) {
-                Button("- 10") {
-                    count = count - 10
-                }
-
                 Button("- 1") {
                     count = count - 1
                 }
-
                 Button("Reset") {
                     count = 0
                 }
-
                 Button("+ 1") {
                     count = count + 1
                 }
-
-                Button("+ 10") {
-                    count = count + 10
-                }
-            }
-
-            // Status text
-            if count == 0 {
-                Text("Zero")
-                    .foregroundStyle("secondary")
-            } else if count > 0 {
-                Text("Positive")
-                    .foregroundStyle("green")
-            } else {
-                Text("Negative")
-                    .foregroundStyle("red")
             }
         }
         .padding()
     }
 }
+
+// Instantiate for preview
+Counter()

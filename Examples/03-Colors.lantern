@@ -1,11 +1,9 @@
 // 03-Colors.lantern
 //
-// All named colors available through the SwiftUI bridge,
-// shown as colored rectangles with labels.
+// All named colors available through the SwiftUI bridge.
 
 struct ColorSwatch: View {
     let name: String
-    let textColor: String
 
     var body: some View {
         HStack {
@@ -19,39 +17,33 @@ struct ColorSwatch: View {
     }
 }
 
-struct ColorGallery: View {
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 4) {
-                Text("Named Colors")
-                    .font("title2")
-                    .bold()
-                    .padding()
-
-                // Standard colors
-                ColorSwatch(name: "red", textColor: "primary")
-                ColorSwatch(name: "orange", textColor: "primary")
-                ColorSwatch(name: "yellow", textColor: "primary")
-                ColorSwatch(name: "green", textColor: "primary")
-                ColorSwatch(name: "blue", textColor: "primary")
-                ColorSwatch(name: "purple", textColor: "primary")
-                ColorSwatch(name: "pink", textColor: "primary")
-
-                Divider().padding()
-
-                // Neutral colors
-                ColorSwatch(name: "white", textColor: "primary")
-                ColorSwatch(name: "gray", textColor: "primary")
-                ColorSwatch(name: "black", textColor: "primary")
-                ColorSwatch(name: "clear", textColor: "primary")
-
-                Divider().padding()
-
-                // Semantic colors
-                ColorSwatch(name: "primary", textColor: "primary")
-                ColorSwatch(name: "secondary", textColor: "primary")
-            }
+// The last expression is the preview
+ScrollView {
+    VStack(spacing: 4) {
+        Text("Named Colors")
+            .font("title2")
+            .bold()
             .padding()
-        }
+
+        ColorSwatch(name: "red")
+        ColorSwatch(name: "orange")
+        ColorSwatch(name: "yellow")
+        ColorSwatch(name: "green")
+        ColorSwatch(name: "blue")
+        ColorSwatch(name: "purple")
+        ColorSwatch(name: "pink")
+
+        Divider().padding()
+
+        ColorSwatch(name: "white")
+        ColorSwatch(name: "gray")
+        ColorSwatch(name: "black")
+        ColorSwatch(name: "clear")
+
+        Divider().padding()
+
+        ColorSwatch(name: "primary")
+        ColorSwatch(name: "secondary")
     }
+    .padding()
 }

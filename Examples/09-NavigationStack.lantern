@@ -1,6 +1,6 @@
 // 09-NavigationStack.lantern
 //
-// NavigationStack with navigationTitle and list-style content.
+// NavigationStack with navigationTitle and composed rows.
 
 struct MenuItem {
     let icon: String
@@ -44,20 +44,16 @@ struct MenuRow: View {
     }
 }
 
-struct NavigationDemo: View {
-    var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(spacing: 1) {
-                    for i in 0..<menuItems.count {
-                        MenuRow(item: menuItems[i])
-                        if i < menuItems.count - 1 {
-                            Divider()
-                        }
-                    }
+NavigationStack {
+    ScrollView {
+        VStack(spacing: 1) {
+            for i in 0..<menuItems.count {
+                MenuRow(item: menuItems[i])
+                if i < menuItems.count - 1 {
+                    Divider()
                 }
             }
-            .navigationTitle("Navigation Demo")
         }
     }
+    .navigationTitle("Navigation Demo")
 }

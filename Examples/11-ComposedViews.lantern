@@ -1,9 +1,6 @@
 // 11-ComposedViews.lantern
 //
-// Demonstrates composing multiple custom views together,
-// passing data between them, and building reusable components.
-
-// --- Reusable badge component ---
+// Reusable components composed together.
 
 struct Badge: View {
     let text: String
@@ -20,10 +17,8 @@ struct Badge: View {
     }
 }
 
-// --- Star rating display ---
-
 struct StarRating: View {
-    let rating: Int  // 1-5
+    let rating: Int
 
     var body: some View {
         HStack(spacing: 2) {
@@ -40,8 +35,6 @@ struct StarRating: View {
         .font("caption")
     }
 }
-
-// --- Card component ---
 
 struct ReviewCard: View {
     let author: String
@@ -74,38 +67,33 @@ struct ReviewCard: View {
     }
 }
 
-// --- Main view composing everything ---
+// Compose and preview
+ScrollView {
+    VStack(spacing: 16) {
+        Text("Reviews")
+            .font("title")
+            .bold()
 
-struct ReviewList: View {
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                Text("Reviews")
-                    .font("title")
-                    .bold()
+        ReviewCard(
+            author: "Alice",
+            rating: 5,
+            comment: "Absolutely love this interpreter!",
+            tag: "Featured"
+        )
 
-                ReviewCard(
-                    author: "Alice",
-                    rating: 5,
-                    comment: "Absolutely love this interpreter! The SwiftUI bridge is seamless.",
-                    tag: "Featured"
-                )
+        ReviewCard(
+            author: "Bob",
+            rating: 4,
+            comment: "Great tool for prototyping.",
+            tag: "Verified"
+        )
 
-                ReviewCard(
-                    author: "Bob",
-                    rating: 4,
-                    comment: "Great tool for prototyping. The debugger is very helpful.",
-                    tag: "Verified"
-                )
-
-                ReviewCard(
-                    author: "Charlie",
-                    rating: 3,
-                    comment: "Good concept, looking forward to more view types.",
-                    tag: "New"
-                )
-            }
-            .padding()
-        }
+        ReviewCard(
+            author: "Charlie",
+            rating: 3,
+            comment: "Good concept, looking forward to more.",
+            tag: "New"
+        )
     }
+    .padding()
 }

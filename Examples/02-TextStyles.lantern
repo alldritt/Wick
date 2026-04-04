@@ -1,48 +1,45 @@
 // 02-TextStyles.lantern
 //
 // Text views with all available font styles and text modifiers.
+// The last expression (the ScrollView) is displayed in the preview.
 
-struct TextStyles: View {
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 8) {
+ScrollView {
+    VStack(spacing: 8) {
 
-                // Font sizes
-                Text("Large Title").font("largeTitle")
-                Text("Title").font("title")
-                Text("Title 2").font("title2")
-                Text("Title 3").font("title3")
-                Text("Headline").font("headline")
-                Text("Subheadline").font("subheadline")
-                Text("Body (default)").font("body")
-                Text("Callout").font("callout")
-                Text("Footnote").font("footnote")
-                Text("Caption").font("caption")
-                Text("Caption 2").font("caption2")
+        // Font sizes
+        Text("Large Title").font("largeTitle")
+        Text("Title").font("title")
+        Text("Title 2").font("title2")
+        Text("Title 3").font("title3")
+        Text("Headline").font("headline")
+        Text("Subheadline").font("subheadline")
+        Text("Body (default)").font("body")
+        Text("Callout").font("callout")
+        Text("Footnote").font("footnote")
+        Text("Caption").font("caption")
+        Text("Caption 2").font("caption2")
 
-                Divider()
+        Divider()
 
-                // Text modifiers
-                Text("Bold text").bold()
-                Text("Italic text").italic()
-                Text("Underlined text").underline()
-                Text("Strikethrough text").strikethrough()
-                Text("Bold + Italic").bold().italic()
+        // Text modifiers
+        Text("Bold text").bold()
+        Text("Italic text").italic()
+        Text("Underlined text").underline()
+        Text("Strikethrough text").strikethrough()
+        Text("Bold + Italic").bold().italic()
 
-                Divider()
+        Divider()
 
-                // Line limits
-                Text("This is a long piece of text that should be limited to a single line using the lineLimit modifier")
-                    .lineLimit(1)
+        // Line limits
+        Text("This is a long piece of text that should be limited to a single line using the lineLimit modifier")
+            .lineLimit(1)
 
-                Text("Center aligned text")
-                    .multilineTextAlignment("center")
+        Text("Center aligned text")
+            .multilineTextAlignment("center")
 
-                Text("Trailing aligned text")
-                    .multilineTextAlignment("trailing")
+        Text("Trailing aligned text")
+            .multilineTextAlignment("trailing")
 
-            }
-            .padding()
-        }
     }
+    .padding()
 }

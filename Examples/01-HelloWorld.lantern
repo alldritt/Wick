@@ -1,9 +1,6 @@
 // 01-HelloWorld.lantern
 //
 // The simplest possible Lantern SwiftUI view.
+// The last expression is displayed in the preview.
 
-struct HelloWorld: View {
-    var body: some View {
-        Text("Hello, Lantern!")
-    }
-}
+Text("Hello, Lantern!")

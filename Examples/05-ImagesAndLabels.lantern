@@ -2,68 +2,62 @@
 //
 // SF Symbols images, Labels, and combining them with text.
 
-struct ImagesAndLabels: View {
-    var body: some View {
-        ScrollView {
-            VStack(spacing: 16) {
-                Text("SF Symbol Images")
-                    .font("title2")
-                    .bold()
+ScrollView {
+    VStack(spacing: 16) {
+        Text("SF Symbol Images")
+            .font("title2")
+            .bold()
 
-                // Standalone images
-                HStack(spacing: 24) {
-                    Image(systemName: "star.fill")
-                        .foregroundStyle("yellow")
-                    Image(systemName: "heart.fill")
-                        .foregroundStyle("red")
-                    Image(systemName: "bolt.fill")
-                        .foregroundStyle("orange")
-                    Image(systemName: "leaf.fill")
-                        .foregroundStyle("green")
-                    Image(systemName: "drop.fill")
-                        .foregroundStyle("blue")
-                }
-                .font("title")
+        HStack(spacing: 24) {
+            Image(systemName: "star.fill")
+                .foregroundStyle("yellow")
+            Image(systemName: "heart.fill")
+                .foregroundStyle("red")
+            Image(systemName: "bolt.fill")
+                .foregroundStyle("orange")
+            Image(systemName: "leaf.fill")
+                .foregroundStyle("green")
+            Image(systemName: "drop.fill")
+                .foregroundStyle("blue")
+        }
+        .font("title")
 
-                Divider()
+        Divider()
 
-                Text("Labels (icon + text)")
-                    .font("title2")
-                    .bold()
+        Text("Labels (icon + text)")
+            .font("title2")
+            .bold()
 
-                // Labels combine an icon and text
-                VStack(spacing: 8) {
-                    Label("Favorites", systemImage: "star.fill")
-                        .foregroundStyle("yellow")
-                    Label("Downloads", systemImage: "arrow.down.circle.fill")
-                        .foregroundStyle("blue")
-                    Label("Settings", systemImage: "gearshape.fill")
-                        .foregroundStyle("gray")
-                    Label("Profile", systemImage: "person.circle.fill")
-                        .foregroundStyle("purple")
-                    Label("Notifications", systemImage: "bell.fill")
-                        .foregroundStyle("red")
-                }
-                .font("body")
+        VStack(spacing: 8) {
+            Label("Favorites", systemImage: "star.fill")
+                .foregroundStyle("yellow")
+            Label("Downloads", systemImage: "arrow.down.circle.fill")
+                .foregroundStyle("blue")
+            Label("Settings", systemImage: "gearshape.fill")
+                .foregroundStyle("gray")
+            Label("Profile", systemImage: "person.circle.fill")
+                .foregroundStyle("purple")
+            Label("Notifications", systemImage: "bell.fill")
+                .foregroundStyle("red")
+        }
+        .font("body")
 
-                Divider()
+        Divider()
 
-                Text("Scaled Images")
-                    .font("title2")
-                    .bold()
+        Text("Scaled Images")
+            .font("title2")
+            .bold()
 
-                HStack(spacing: 16) {
-                    Image(systemName: "sun.max.fill")
-                        .foregroundStyle("orange")
-                        .scaleEffect(0.5)
-                    Image(systemName: "sun.max.fill")
-                        .foregroundStyle("orange")
-                    Image(systemName: "sun.max.fill")
-                        .foregroundStyle("orange")
-                        .scaleEffect(2.0)
-                }
-            }
-            .padding()
+        HStack(spacing: 16) {
+            Image(systemName: "sun.max.fill")
+                .foregroundStyle("orange")
+                .scaleEffect(0.5)
+            Image(systemName: "sun.max.fill")
+                .foregroundStyle("orange")
+            Image(systemName: "sun.max.fill")
+                .foregroundStyle("orange")
+                .scaleEffect(2.0)
         }
     }
+    .padding()
 }

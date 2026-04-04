@@ -1,10 +1,10 @@
 // 10-ListViews.lantern
 //
-// List container with structured content.
+// List container with structured data.
 
 struct Planet {
     let name: String
-    let diameter: Int   // km
+    let diameter: Int
     let moons: Int
     let ring: Bool
 }
@@ -45,15 +45,11 @@ struct PlanetRow: View {
     }
 }
 
-struct PlanetList: View {
-    var body: some View {
-        NavigationStack {
-            List {
-                for i in 0..<planets.count {
-                    PlanetRow(planet: planets[i])
-                }
-            }
-            .navigationTitle("Solar System")
+NavigationStack {
+    List {
+        for i in 0..<planets.count {
+            PlanetRow(planet: planets[i])
         }
     }
+    .navigationTitle("Solar System")
 }
