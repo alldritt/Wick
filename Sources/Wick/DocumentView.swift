@@ -218,7 +218,12 @@ struct DocumentView: View {
         let dbg = session.debugSession
         return GutterBreakpointActions(
             onToggle: { line in
-                dbg.toggleBreakpoint(file: "", line: line)
+                dbg.addBreakpoint(file: "", line: line)
+            },
+            onToggleEnabled: { id in
+                if let bp = dbg.breakpoints.first(where: { $0.id == id }) {
+                    dbg.enableBreakpoint(id, enabled: !bp.isEnabled)
+                }
             },
             onMove: { id, newLine in
                 dbg.removeBreakpoint(id)
