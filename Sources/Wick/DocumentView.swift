@@ -200,14 +200,16 @@ struct DocumentView: View {
     // MARK: - Subviews
 
     private var editor: some View {
-        LanternEditorView(
+        let dbg = session.debugSession
+        return LanternEditorView(
             source: $document.source,
             messages: $messages,
             position: $position,
-            breakpoints: BreakpointMapper.mapBreakpoints(session.debugSession.breakpoints),
-            stackFrames: session.debugSession.isPaused
-                ? BreakpointMapper.mapStackFrames(session.debugSession.callStack)
-                : [],
+            breakpoints: BreakpointMapper.mapBreakpoints(dbg.breakpoints),
+            stackFrames: BreakpointMapper.mapPausedState(
+                pausedLocation: dbg.pausedLocation,
+                callStack: dbg.callStack
+            ),
             breakpointActions: makeBreakpointActions()
         )
     }

@@ -1,0 +1,9 @@
+// Welcome to Wick!
+// Write Lantern code here and tap Run.
+
+func test() {
+  print("test")
+}
+
+print("Hello, Wick!")
+test()
