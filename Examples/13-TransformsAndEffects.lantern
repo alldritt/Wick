@@ -1,0 +1,86 @@
+// 13-TransformsAndEffects.lantern
+//
+// Rotation, scale, opacity, overlay, offset, and shadow
+// effects applied to create visual interest.
+
+struct TransformsDemo: View {
+    @State var angle = 0.0
+    @State var scale = 1.0
+
+    var body: some View {
+        VStack(spacing: 24) {
+            Text("Transforms & Effects")
+                .font("title")
+                .bold()
+
+            Divider()
+
+            // Interactive rotation
+            VStack(spacing: 8) {
+                Image(systemName: "arrow.up")
+                    .font("largeTitle")
+                    .foregroundStyle("blue")
+                    .rotationEffect(angle)
+
+                HStack(spacing: 12) {
+                    Button("Reset") { angle = 0 }
+                    Button("+45") { angle = angle + 45 }
+                    Button("+90") { angle = angle + 90 }
+                    Button("+180") { angle = angle + 180 }
+                }
+
+                Text("\(Int(angle))\u{00B0}")
+                    .font("caption")
+                    .foregroundStyle("secondary")
+            }
+
+            Divider()
+
+            // Interactive scale
+            VStack(spacing: 8) {
+                Image(systemName: "star.fill")
+                    .font("largeTitle")
+                    .foregroundStyle("yellow")
+                    .scaleEffect(scale)
+
+                HStack(spacing: 12) {
+                    Button("0.5x") { scale = 0.5 }
+                    Button("1x") { scale = 1.0 }
+                    Button("2x") { scale = 2.0 }
+                    Button("3x") { scale = 3.0 }
+                }
+            }
+
+            Divider()
+
+            // Layered effects
+            Text("Layered Effects")
+                .font("headline")
+
+            ZStack {
+                Text("Shadow")
+                    .font("title")
+                    .bold()
+                    .foregroundStyle("white")
+                    .padding(20)
+                    .background("blue")
+                    .cornerRadius(16)
+                    .shadow(10)
+                    .rotationEffect(-5)
+
+                Text("Shadow")
+                    .font("title")
+                    .bold()
+                    .foregroundStyle("white")
+                    .padding(20)
+                    .background("purple")
+                    .cornerRadius(16)
+                    .shadow(10)
+                    .offset(60, 20)
+                    .rotationEffect(5)
+            }
+
+        }
+        .padding()
+    }
+}

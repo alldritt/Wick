@@ -1,0 +1,123 @@
+// 06-Modifiers.lantern
+//
+// All available view modifiers: padding, frame, background,
+// border, shadow, corner radius, opacity, rotation, scale,
+// offset, hidden, disabled, fixedSize.
+
+struct ModifierShowcase: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+
+                Text("View Modifiers")
+                    .font("title")
+                    .bold()
+
+                // --- padding ---
+                Text("padding()")
+                    .padding()
+                    .background("blue")
+                    .foregroundStyle("white")
+
+                Text("padding(24)")
+                    .padding(24)
+                    .background("green")
+                    .foregroundStyle("white")
+
+                Divider()
+
+                // --- frame ---
+                Text("frame(200 x 60)")
+                    .frame(width: 200, height: 60)
+                    .background("orange")
+                    .foregroundStyle("white")
+
+                Divider()
+
+                // --- cornerRadius ---
+                Text("cornerRadius(16)")
+                    .padding()
+                    .background("purple")
+                    .foregroundStyle("white")
+                    .cornerRadius(16)
+
+                // --- shadow ---
+                Text("shadow(8)")
+                    .padding()
+                    .background("white")
+                    .cornerRadius(8)
+                    .shadow(8)
+
+                // --- border ---
+                Text("border(red, 2)")
+                    .padding()
+                    .border("red", 2)
+
+                Divider()
+
+                // --- opacity ---
+                HStack(spacing: 12) {
+                    Text("100%").opacity(1.0)
+                    Text("75%").opacity(0.75)
+                    Text("50%").opacity(0.5)
+                    Text("25%").opacity(0.25)
+                }
+                .font("headline")
+                .foregroundStyle("blue")
+
+                Divider()
+
+                // --- rotationEffect ---
+                HStack(spacing: 24) {
+                    Text("0\u{00B0}")
+                    Text("15\u{00B0}").rotationEffect(15)
+                    Text("45\u{00B0}").rotationEffect(45)
+                    Text("90\u{00B0}").rotationEffect(90)
+                }
+                .font("headline")
+
+                Divider()
+
+                // --- scaleEffect ---
+                HStack(spacing: 24) {
+                    Text("0.5x").scaleEffect(0.5)
+                    Text("1.0x").scaleEffect(1.0)
+                    Text("1.5x").scaleEffect(1.5)
+                    Text("2.0x").scaleEffect(2.0)
+                }
+                .font("caption")
+
+                Divider()
+
+                // --- offset ---
+                ZStack {
+                    Text("Origin")
+                        .foregroundStyle("secondary")
+                    Text("Offset(30, -10)")
+                        .foregroundStyle("red")
+                        .offset(30, -10)
+                }
+                .frame(width: 200, height: 60)
+
+                Divider()
+
+                // --- foregroundStyle + background ---
+                VStack(spacing: 4) {
+                    Text("Red on Yellow")
+                        .foregroundStyle("red")
+                        .background("yellow")
+                        .padding(8)
+                    Text("White on Black")
+                        .foregroundStyle("white")
+                        .background("black")
+                        .padding(8)
+                    Text("Blue on Clear")
+                        .foregroundStyle("blue")
+                        .padding(8)
+                }
+
+            }
+            .padding()
+        }
+    }
+}

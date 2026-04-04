@@ -1,0 +1,102 @@
+// 12-InteractiveForm.lantern
+//
+// Demonstrates @State with multiple state variables,
+// conditional rendering, and computed display values.
+
+struct InteractiveForm: View {
+    @State var taps = 0
+    @State var score = 50
+    @State var mode = "normal"
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Interactive Form")
+                .font("title")
+                .bold()
+
+            Divider()
+
+            // Tap counter with emoji feedback
+            VStack(spacing: 8) {
+                Text("Tap Count: \(taps)")
+                    .font("headline")
+
+                Button("Tap Me!") {
+                    taps = taps + 1
+                }
+
+                if taps == 0 {
+                    Text("Go ahead, tap the button!")
+                        .foregroundStyle("secondary")
+                        .italic()
+                } else if taps < 10 {
+                    Text("Keep going...")
+                        .foregroundStyle("blue")
+                } else if taps < 50 {
+                    Text("Nice! You're getting there.")
+                        .foregroundStyle("green")
+                } else {
+                    Text("Wow, that's a lot of taps!")
+                        .foregroundStyle("orange")
+                        .bold()
+                }
+            }
+
+            Divider()
+
+            // Score adjustment
+            VStack(spacing: 8) {
+                Text("Score: \(score)")
+                    .font("title2")
+                    .foregroundStyle(score >= 70 ? "green" : score >= 40 ? "orange" : "red")
+
+                HStack(spacing: 12) {
+                    Button("-5") { score = max(0, score - 5) }
+                    Button("-1") { score = max(0, score - 1) }
+                    Button("+1") { score = min(100, score + 1) }
+                    Button("+5") { score = min(100, score + 5) }
+                }
+
+                ProgressView(value: Double(score) / 100.0)
+                    .padding()
+            }
+
+            Divider()
+
+            // Mode switcher
+            VStack(spacing: 8) {
+                Text("Mode: \(mode)")
+                    .font("headline")
+
+                HStack(spacing: 8) {
+                    Button("Normal") { mode = "normal" }
+                    Button("Dark") { mode = "dark" }
+                    Button("Party") { mode = "party" }
+                }
+
+                if mode == "normal" {
+                    Text("Standard mode")
+                        .foregroundStyle("primary")
+                } else if mode == "dark" {
+                    Text("Dark mode active")
+                        .foregroundStyle("white")
+                        .padding()
+                        .background("black")
+                        .cornerRadius(8)
+                } else {
+                    HStack(spacing: 4) {
+                        Text("P").foregroundStyle("red")
+                        Text("A").foregroundStyle("orange")
+                        Text("R").foregroundStyle("yellow")
+                        Text("T").foregroundStyle("green")
+                        Text("Y").foregroundStyle("blue")
+                        Text("!").foregroundStyle("purple")
+                    }
+                    .font("title")
+                    .bold()
+                }
+            }
+        }
+        .padding()
+    }
+}

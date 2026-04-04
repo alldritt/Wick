@@ -1,0 +1,67 @@
+// 04-LayoutContainers.lantern
+//
+// Demonstrates VStack, HStack, ZStack, Spacer, and Divider.
+
+struct LayoutDemo: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 20) {
+
+                // --- VStack ---
+                Text("VStack").font("headline")
+                VStack(spacing: 4) {
+                    Text("Top")
+                    Text("Middle")
+                    Text("Bottom")
+                }
+                .padding()
+                .background("blue")
+                .foregroundStyle("white")
+                .cornerRadius(8)
+
+                Divider()
+
+                // --- HStack ---
+                Text("HStack").font("headline")
+                HStack(spacing: 12) {
+                    Text("Left").padding().background("red").foregroundStyle("white").cornerRadius(4)
+                    Text("Center").padding().background("green").foregroundStyle("white").cornerRadius(4)
+                    Text("Right").padding().background("blue").foregroundStyle("white").cornerRadius(4)
+                }
+
+                Divider()
+
+                // --- ZStack ---
+                Text("ZStack (layered)").font("headline")
+                ZStack {
+                    Color("blue")
+                        .frame(width: 200, height: 100)
+                        .cornerRadius(12)
+                    Text("On top of blue")
+                        .foregroundStyle("white")
+                        .bold()
+                }
+
+                Divider()
+
+                // --- Spacer ---
+                Text("Spacer (pushes apart)").font("headline")
+                HStack {
+                    Text("Left")
+                        .padding()
+                        .background("orange")
+                        .cornerRadius(4)
+                    Spacer()
+                    Text("Right")
+                        .padding()
+                        .background("purple")
+                        .foregroundStyle("white")
+                        .cornerRadius(4)
+                }
+                .padding()
+
+            }
+            .padding()
+        }
+    }
+}

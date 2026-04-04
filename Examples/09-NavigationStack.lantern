@@ -1,0 +1,63 @@
+// 09-NavigationStack.lantern
+//
+// NavigationStack with navigationTitle and list-style content.
+
+struct MenuItem {
+    let icon: String
+    let title: String
+    let subtitle: String
+    let color: String
+}
+
+let menuItems = [
+    MenuItem(icon: "house.fill", title: "Home", subtitle: "Dashboard and overview", color: "blue"),
+    MenuItem(icon: "doc.text.fill", title: "Documents", subtitle: "Your files and folders", color: "green"),
+    MenuItem(icon: "photo.fill", title: "Photos", subtitle: "Image gallery", color: "purple"),
+    MenuItem(icon: "gear", title: "Settings", subtitle: "App configuration", color: "gray"),
+    MenuItem(icon: "person.circle.fill", title: "Profile", subtitle: "Account details", color: "orange"),
+    MenuItem(icon: "bell.fill", title: "Notifications", subtitle: "Alerts and updates", color: "red")
+]
+
+struct MenuRow: View {
+    let item: MenuItem
+
+    var body: some View {
+        HStack(spacing: 12) {
+            Image(systemName: item.icon)
+                .foregroundStyle(item.color)
+                .font("title2")
+                .frame(width: 32, height: 32)
+            VStack {
+                Text(item.title)
+                    .font("body")
+                    .bold()
+                Text(item.subtitle)
+                    .font("caption")
+                    .foregroundStyle("secondary")
+            }
+            Spacer()
+            Image(systemName: "chevron.right")
+                .foregroundStyle("secondary")
+                .font("caption")
+        }
+        .padding(12)
+    }
+}
+
+struct NavigationDemo: View {
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 1) {
+                    for i in 0..<menuItems.count {
+                        MenuRow(item: menuItems[i])
+                        if i < menuItems.count - 1 {
+                            Divider()
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Navigation Demo")
+        }
+    }
+}

@@ -1,0 +1,114 @@
+// 14-CardUI.lantern
+//
+// A polished card-based UI combining multiple views, modifiers,
+// state, and conditional rendering into a realistic interface.
+
+struct Task {
+    let title: String
+    let priority: String   // "high", "medium", "low"
+    let done: Bool
+}
+
+struct TaskCard: View {
+    let task: Task
+
+    var body: some View {
+        HStack(spacing: 12) {
+            // Checkbox icon
+            Image(systemName: task.done ? "checkmark.circle.fill" : "circle")
+                .foregroundStyle(task.done ? "green" : "gray")
+                .font("title2")
+
+            // Title with strikethrough if done
+            if task.done {
+                Text(task.title)
+                    .strikethrough()
+                    .foregroundStyle("secondary")
+            } else {
+                Text(task.title)
+                    .font("body")
+            }
+
+            Spacer()
+
+            // Priority badge
+            if task.priority == "high" {
+                Text("HIGH")
+                    .font("caption2")
+                    .bold()
+                    .foregroundStyle("white")
+                    .padding(4)
+                    .background("red")
+                    .cornerRadius(4)
+            } else if task.priority == "medium" {
+                Text("MED")
+                    .font("caption2")
+                    .bold()
+                    .foregroundStyle("white")
+                    .padding(4)
+                    .background("orange")
+                    .cornerRadius(4)
+            } else {
+                Text("LOW")
+                    .font("caption2")
+                    .bold()
+                    .foregroundStyle("white")
+                    .padding(4)
+                    .background("blue")
+                    .cornerRadius(4)
+            }
+        }
+        .padding(12)
+        .background("white")
+        .cornerRadius(8)
+        .shadow(2)
+        .opacity(task.done ? 0.6 : 1.0)
+    }
+}
+
+struct TaskBoard: View {
+    @State var completedCount = 2
+
+    var body: some View {
+        let tasks = [
+            Task(title: "Design the UI mockups", priority: "high", done: true),
+            Task(title: "Set up the project structure", priority: "high", done: true),
+            Task(title: "Implement the data model", priority: "high", done: false),
+            Task(title: "Write unit tests", priority: "medium", done: false),
+            Task(title: "Add dark mode support", priority: "low", done: false),
+            Task(title: "Performance optimization", priority: "medium", done: false),
+            Task(title: "Write documentation", priority: "low", done: false)
+        ]
+
+        NavigationStack {
+            ScrollView {
+                VStack(spacing: 8) {
+                    // Summary header
+                    HStack {
+                        VStack {
+                            Text("\(completedCount) of \(tasks.count)")
+                                .font("title2")
+                                .bold()
+                            Text("tasks complete")
+                                .font("caption")
+                                .foregroundStyle("secondary")
+                        }
+                        Spacer()
+                        ProgressView(value: Double(completedCount) / Double(tasks.count))
+                            .frame(width: 120)
+                    }
+                    .padding()
+
+                    Divider()
+
+                    // Task cards
+                    for i in 0..<tasks.count {
+                        TaskCard(task: tasks[i])
+                    }
+                }
+                .padding()
+            }
+            .navigationTitle("Task Board")
+        }
+    }
+}

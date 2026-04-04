@@ -1,0 +1,111 @@
+// 11-ComposedViews.lantern
+//
+// Demonstrates composing multiple custom views together,
+// passing data between them, and building reusable components.
+
+// --- Reusable badge component ---
+
+struct Badge: View {
+    let text: String
+    let color: String
+
+    var body: some View {
+        Text(text)
+            .font("caption2")
+            .bold()
+            .foregroundStyle("white")
+            .padding(6)
+            .background(color)
+            .cornerRadius(4)
+    }
+}
+
+// --- Star rating display ---
+
+struct StarRating: View {
+    let rating: Int  // 1-5
+
+    var body: some View {
+        HStack(spacing: 2) {
+            for i in 0..<5 {
+                if i < rating {
+                    Image(systemName: "star.fill")
+                        .foregroundStyle("yellow")
+                } else {
+                    Image(systemName: "star")
+                        .foregroundStyle("gray")
+                }
+            }
+        }
+        .font("caption")
+    }
+}
+
+// --- Card component ---
+
+struct ReviewCard: View {
+    let author: String
+    let rating: Int
+    let comment: String
+    let tag: String
+
+    var body: some View {
+        VStack(spacing: 8) {
+            HStack {
+                Image(systemName: "person.circle.fill")
+                    .foregroundStyle("blue")
+                    .font("title2")
+                Text(author)
+                    .font("headline")
+                Spacer()
+                Badge(text: tag, color: "purple")
+            }
+
+            StarRating(rating: rating)
+
+            Text(comment)
+                .font("body")
+                .foregroundStyle("secondary")
+        }
+        .padding()
+        .background("white")
+        .cornerRadius(12)
+        .shadow(3)
+    }
+}
+
+// --- Main view composing everything ---
+
+struct ReviewList: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 16) {
+                Text("Reviews")
+                    .font("title")
+                    .bold()
+
+                ReviewCard(
+                    author: "Alice",
+                    rating: 5,
+                    comment: "Absolutely love this interpreter! The SwiftUI bridge is seamless.",
+                    tag: "Featured"
+                )
+
+                ReviewCard(
+                    author: "Bob",
+                    rating: 4,
+                    comment: "Great tool for prototyping. The debugger is very helpful.",
+                    tag: "Verified"
+                )
+
+                ReviewCard(
+                    author: "Charlie",
+                    rating: 3,
+                    comment: "Good concept, looking forward to more view types.",
+                    tag: "New"
+                )
+            }
+            .padding()
+        }
+    }
+}

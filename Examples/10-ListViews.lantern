@@ -1,0 +1,59 @@
+// 10-ListViews.lantern
+//
+// List container with structured content.
+
+struct Planet {
+    let name: String
+    let diameter: Int   // km
+    let moons: Int
+    let ring: Bool
+}
+
+let planets = [
+    Planet(name: "Mercury", diameter: 4879, moons: 0, ring: false),
+    Planet(name: "Venus", diameter: 12104, moons: 0, ring: false),
+    Planet(name: "Earth", diameter: 12756, moons: 1, ring: false),
+    Planet(name: "Mars", diameter: 6792, moons: 2, ring: false),
+    Planet(name: "Jupiter", diameter: 142984, moons: 95, ring: true),
+    Planet(name: "Saturn", diameter: 120536, moons: 146, ring: true),
+    Planet(name: "Uranus", diameter: 51118, moons: 28, ring: true),
+    Planet(name: "Neptune", diameter: 49528, moons: 16, ring: true)
+]
+
+struct PlanetRow: View {
+    let planet: Planet
+
+    var body: some View {
+        HStack {
+            VStack {
+                Text(planet.name)
+                    .font("headline")
+                Text("\(planet.diameter) km")
+                    .font("caption")
+                    .foregroundStyle("secondary")
+            }
+            Spacer()
+            if planet.ring {
+                Image(systemName: "circle.dashed")
+                    .foregroundStyle("orange")
+            }
+            Text("\(planet.moons) moons")
+                .font("subheadline")
+                .foregroundStyle("blue")
+        }
+        .padding(8)
+    }
+}
+
+struct PlanetList: View {
+    var body: some View {
+        NavigationStack {
+            List {
+                for i in 0..<planets.count {
+                    PlanetRow(planet: planets[i])
+                }
+            }
+            .navigationTitle("Solar System")
+        }
+    }
+}

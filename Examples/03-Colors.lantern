@@ -1,0 +1,57 @@
+// 03-Colors.lantern
+//
+// All named colors available through the SwiftUI bridge,
+// shown as colored rectangles with labels.
+
+struct ColorSwatch: View {
+    let name: String
+    let textColor: String
+
+    var body: some View {
+        HStack {
+            Color(name)
+                .frame(width: 40, height: 40)
+                .cornerRadius(8)
+                .border("gray", 1)
+            Text(name)
+                .font("body")
+        }
+    }
+}
+
+struct ColorGallery: View {
+    var body: some View {
+        ScrollView {
+            VStack(spacing: 4) {
+                Text("Named Colors")
+                    .font("title2")
+                    .bold()
+                    .padding()
+
+                // Standard colors
+                ColorSwatch(name: "red", textColor: "primary")
+                ColorSwatch(name: "orange", textColor: "primary")
+                ColorSwatch(name: "yellow", textColor: "primary")
+                ColorSwatch(name: "green", textColor: "primary")
+                ColorSwatch(name: "blue", textColor: "primary")
+                ColorSwatch(name: "purple", textColor: "primary")
+                ColorSwatch(name: "pink", textColor: "primary")
+
+                Divider().padding()
+
+                // Neutral colors
+                ColorSwatch(name: "white", textColor: "primary")
+                ColorSwatch(name: "gray", textColor: "primary")
+                ColorSwatch(name: "black", textColor: "primary")
+                ColorSwatch(name: "clear", textColor: "primary")
+
+                Divider().padding()
+
+                // Semantic colors
+                ColorSwatch(name: "primary", textColor: "primary")
+                ColorSwatch(name: "secondary", textColor: "primary")
+            }
+            .padding()
+        }
+    }
+}

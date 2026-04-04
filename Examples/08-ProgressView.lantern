@@ -1,0 +1,50 @@
+// 08-ProgressView.lantern
+//
+// ProgressView in indeterminate and determinate modes,
+// with interactive state control.
+
+struct ProgressDemo: View {
+    @State var progress = 0.0
+
+    var body: some View {
+        VStack(spacing: 24) {
+            Text("Progress Views")
+                .font("title")
+                .bold()
+
+            Divider()
+
+            // Indeterminate spinner
+            Text("Indeterminate")
+                .font("headline")
+            ProgressView()
+
+            Divider()
+
+            // Determinate with value
+            Text("Determinate: \(Int(progress * 100))%")
+                .font("headline")
+            ProgressView(value: progress)
+                .padding()
+
+            // Controls
+            HStack(spacing: 12) {
+                Button("0%") { progress = 0.0 }
+                Button("25%") { progress = 0.25 }
+                Button("50%") { progress = 0.5 }
+                Button("75%") { progress = 0.75 }
+                Button("100%") { progress = 1.0 }
+            }
+
+            HStack(spacing: 12) {
+                Button("-10%") {
+                    progress = max(0.0, progress - 0.1)
+                }
+                Button("+10%") {
+                    progress = min(1.0, progress + 0.1)
+                }
+            }
+        }
+        .padding()
+    }
+}
