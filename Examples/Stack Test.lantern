@@ -2,7 +2,7 @@
 // Write Lantern code here and tap Run.
 
 func test() {
-  print("test")
+  print("test called")
 }
 
 print("Hello, Wick!")

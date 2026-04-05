@@ -18,17 +18,23 @@ struct Counter: View {
 
             HStack(spacing: 16) {
                 Button("- 1") {
+                    print("- 1")
                     count = count - 1
                 }
                 Button("Reset") {
-                    count = 0
+                    count = 20
                 }
                 Button("+ 1") {
+                    print("+ 1")
                     count = count + 1
                 }
             }
         }
         .padding()
+        .onAppear {
+          print("onAppear")
+          counter = 100
+        }
     }
 }
 
