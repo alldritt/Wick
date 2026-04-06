@@ -45,7 +45,8 @@ struct EditorSplitView: View {
     private var previewPane: some View {
         PreviewCanvasView(
             result: session.previewValue,
-            error: session.state == .error ? session.diagnostics?.description : nil
+            error: session.state == .error ? session.diagnostics?.description : nil,
+            viewDescriptor: session.viewDescriptor
         )
     }
 
