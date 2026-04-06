@@ -22,7 +22,7 @@ struct Counter: View {
                     count = count - 1
                 }
                 Button("Reset") {
-                    count = 20
+                    count = .random()
                 }
                 Button("+ 1") {
                     print("+ 1")
@@ -33,7 +33,7 @@ struct Counter: View {
         .padding()
         .onAppear {
           print("onAppear")
-          counter = 100
+          count = 100
         }
     }
 }

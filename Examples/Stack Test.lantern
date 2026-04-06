@@ -1,6 +1,8 @@
 // Welcome to Wick!
 // Write Lantern code here and tap Run.
 
+let me = "Mark Alldritt"
+
 func test() {
   print("test called")
 }
