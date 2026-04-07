@@ -24,48 +24,48 @@ struct TaskCard: View {
     var body: some View {
         HStack(spacing: 12) {
             Image(systemName: task.done ? "checkmark.circle.fill" : "circle")
-                .foregroundStyle(task.done ? "green" : "gray")
-                .font("title2")
+                .foregroundStyle(task.done ? .green : .gray)
+                .font(.title2)
 
             if task.done {
                 Text(task.title)
                     .strikethrough()
-                    .foregroundStyle("secondary")
+                    .foregroundStyle(.secondary)
             } else {
                 Text(task.title)
-                    .font("body")
+                    .font(.body)
             }
 
             Spacer()
 
             if task.priority == "high" {
                 Text("HIGH")
-                    .font("caption2")
+                    .font(.caption2)
                     .bold()
-                    .foregroundStyle("white")
+                    .foregroundStyle(.white)
                     .padding(4)
-                    .background("red")
+                    .background(.red)
                     .cornerRadius(4)
             } else if task.priority == "medium" {
                 Text("MED")
-                    .font("caption2")
+                    .font(.caption2)
                     .bold()
-                    .foregroundStyle("white")
+                    .foregroundStyle(.white)
                     .padding(4)
-                    .background("orange")
+                    .background(.orange)
                     .cornerRadius(4)
             } else {
                 Text("LOW")
-                    .font("caption2")
+                    .font(.caption2)
                     .bold()
-                    .foregroundStyle("white")
+                    .foregroundStyle(.white)
                     .padding(4)
-                    .background("blue")
+                    .background(.blue)
                     .cornerRadius(4)
             }
         }
         .padding(12)
-        .background("white")
+        .background(.white)
         .cornerRadius(8)
         .shadow(2)
         .opacity(task.done ? 0.6 : 1.0)
@@ -73,17 +73,19 @@ struct TaskCard: View {
 }
 
 // Preview: task board with header and cards
+let completedTasks = tasks.filter( { task in task.done }).count
+
 NavigationStack {
     ScrollView {
         VStack(spacing: 8) {
             HStack {
                 VStack {
-                    Text("2 of \(tasks.count)")
-                        .font("title2")
+                    Text("\(completedTasks) of \(tasks.count)")
+                        .font(.title2)
                         .bold()
                     Text("tasks complete")
-                        .font("caption")
-                        .foregroundStyle("secondary")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
                 }
                 Spacer()
                 ProgressView(value: 2.0 / Double(tasks.count))

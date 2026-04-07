@@ -63,8 +63,8 @@ struct DebuggerBottomBarView: View {
 struct DebuggerSplitView: View {
     let session: SessionController
 
-    let layout = LayoutHolder(.horizontal)
-    let hide = SideHolder()
+    @StateObject private var layout = LayoutHolder(.horizontal)
+    @StateObject private var hide = SideHolder()
     @State var showDebugger: Bool = true
     @State var showConsole: Bool = true
 

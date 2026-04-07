@@ -19,9 +19,9 @@ struct ProjectView: View {
     @State private var messages: Set<TextLocated<Message>> = []
     @State private var position = CodeEditor.Position()
 
-    let layout = LayoutHolder(.vertical)
-    let hide = SideHolder()
-    let styling = SplitStyling(visibleThickness: 22)
+    @StateObject private var layout = LayoutHolder(.vertical)
+    @StateObject private var hide = SideHolder()
+    @StateObject private var styling = SplitStyling(visibleThickness: 22)
     @State var showDebugger = true
 
     var body: some View {
