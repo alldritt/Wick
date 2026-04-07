@@ -8,28 +8,31 @@ struct ProgressDemo: View {
     var body: some View {
         VStack(spacing: 24) {
             Text("Progress Views")
-                .font("title")
+                .font(.title)
                 .bold()
 
             Divider()
 
-            Text("Indeterminate")
-                .font("headline")
-            ProgressView()
+            VStack {
+              Text("Indeterminate")
+                .font(.headline)
+              ProgressView()
 
-            Divider()
+              Divider()
 
-            Text("Determinate")
-                .font("headline")
-            ProgressView(value: progress)
+              Text("Determinate")
+                .font(.headline)
+              ProgressView(value: progress)
                 .padding()
-
+            }
+    
             HStack(spacing: 12) {
                 Button("0%") { progress = 0.0 }
                 Button("25%") { progress = 0.25 }
                 Button("50%") { progress = 0.5 }
                 Button("75%") { progress = 0.75 }
                 Button("100%") { progress = 1.0 }
+        .padding(10)
             }
         }
         .padding()

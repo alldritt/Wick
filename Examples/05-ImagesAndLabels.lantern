@@ -5,7 +5,7 @@
 ScrollView {
     VStack(spacing: 16) {
         Text("SF Symbol Images")
-            .font("title2")
+            .font(.title2)
             .bold()
 
         HStack(spacing: 24) {
@@ -25,7 +25,7 @@ ScrollView {
         Divider()
 
         Text("Labels (icon + text)")
-            .font("title2")
+            .font(.title2)
             .bold()
 
         VStack(spacing: 8) {
@@ -40,12 +40,12 @@ ScrollView {
             Label("Notifications", systemImage: "bell.fill")
                 .foregroundStyle("red")
         }
-        .font("body")
+        .font(.body)
 
         Divider()
 
         Text("Scaled Images")
-            .font("title2")
+            .font(.title2)
             .bold()
 
         HStack(spacing: 16) {
